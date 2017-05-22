@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>label</title>
+    <script type="text/javascript">
+        function Hide() {
+           /*
+           * 注意document.getElementsByClassName获取的是数组，要使用其中的元素必须从数组中取出来
+           * */
+            var mBox = document.getElementsByClassName("box1")[0];
+            var mBox1 = document.getElementsByClassName("box1")[1];
+            mBox.style.display = "none";
+            mBox1.style.visibility = "hidden";
+        }
+        function show(){
+            var mBox = document.getElementsByClassName("box1")[0];
+            mBox.style.display = "inline-block";
+        }
+    </script>
+    <style type="text/css">
+        .clearfix{
+            *zoom: 1;
+        }
+        .clearfix::after{
+            clear: both;
+            content: '';
+            display: block;
+            height:0;
+            visibility: hidden;
+        }
+        ul, li {
+            list-style: none;
+        }
+
+        .item {
+            border: 1px solid gray;
+            background: gray;
+            margin-right: 3px;
+        }
+
+        /*使用兄弟选择器M+N为li元素设置属性*/
+        .oo li + li {
+            margin-top: 5px;
+        }
+
+        #tab {
+            position: relative;
+            width: 500px;
+            height: 200px;
+        }
+
+        #tab ul li {
+            float: left;
+            background: #fefefe;
+            background: -moz-linear-gradient(top, #fefefe, #ededed);
+
+            background: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#ededed));
+            border: 1px solid #ccc;
+            padding: 5px 0;
+            width: 100px;
+            text-align: center;
+            margin-left: -1px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        #tab .tab-content {
+            position: absolute;
+            left: 39px;
+            top: 32px;
+            border: 1px solid #ccc;
+            border-top: none;
+            width: 403px;
+            height: 100px;
+        }
+
+        #tab .tab-content div {
+            padding: 10px;
+            position: absolute;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+        #tab .tab-list li.cur {
+            border-bottom: none;
+            background: #fff;
+
+        }
+
+        #tab .tab-content div.cur {
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+
+        .box1, .box2 {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+        .bg{
+            width: 210px;
+            height: 60px;
+            text-indent: -9999px;
+            background-image: url("img/logo.png");
+        }
+        .mtextarea{
+            width:200px;
+            height:200px;
+            display: inline-block;
+            border:1px solid green;
+        }
+    </style>
+</head>
+<body>
+<p>对比使用label标签后将增加鼠标的点击区域</p>
+<h2>未使用“label”标签</h2>
+<div>
+    <input type="radio" id="radio1"/>单选框
+    <input type="checkbox" id="checkbox1"/>多选框<span>点击汉字不会选中</span>
+</div>
+<hr/>
+<!--使用label标签绑定后增加点击区域-->
+<h2>使用“label”标签</h2>
+<div>
+    <input type="radio" id="one"><label for="one">单选框</label>
+    <input type="checkbox" id="two"><label for="two">多选框</label><span>点击汉字也会选中哦！</span>
+</div>
+<hr/>
+<p>表单语义化</p>
+<h1>表单语义化</h1>
+<form>
+    <fieldset>
+        <legend>BLOG</legend>
+        <p>
+            <label for="username">账号：</label><input type="text" id="username" name="name">
+        </p>
+        <p>
+            <label for="password">密码：</label><input type="text" id="password" name="pw">
+        </p>
+        <input type="checkbox" id="remenber" name="remenber"><label for="remenber">记住我</label>
+        <input type="submit" value="登录">
+    </fieldset>
+</form>
+<hr/>
+<p>"br"标签仅仅用于段落(p标签)的换行<br>看吧就这样</p>
+<hr/>
+<h2>带有标题的ul列表</h2>
+<ul class="oo" style="list-style-type: none">
+    <li><span class="item">1</span>HTML教程</li>
+    <li><span class="item">2</span>CSS教程</li>
+    <li><span class="item">3</span>JavaScript教程</li>
+</ul>
+<hr/>
+<p>strong和em标签用于对文本起强调作用，例如<strong>我被strong标签包围了</strong>，<em>我被em标签包围了，233</em></p>
+<hr/>
+<p>负margin技术：当负margin为margin-top和margin-left时，将当前元素拉向指定方向；当当负margin为margin-bottom和margin-right时，将其后元素拉向指定方向</p>
+<hr/>
+<h2>tab选项卡</h2>
+<div id="tab" style="margin-left:460px;margin-top:30px">
+    <div class="tab-list">
+        <ul>
+            <li class="cur">许嵩</li>
+            <li>周杰伦</li>
+            <li>林俊杰</li>
+            <li>陈奕迅</li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="cur">断桥残雪</div>
+        <div>发如雪、七里香</div>
+        <div>小酒窝</div>
+        <div>十年</div>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        var oDiv = document.getElementById("tab");
+        var oLi = oDiv.getElementsByTagName("div")[0].getElementsByTagName("li");
+        var oCon = oDiv.getElementsByTagName("div")[1].getElementsByTagName("div");
+        var Timer = null;
+        for (var i = 0; i < oLi.length; i++) {
+            oLi[i].num = i;
+            oLi[i].onmouseover = function () {
+                show(this.num);
+            }
+        }
+        function show(a) {
+//        num = a;
+            var alpha = 0;
+            for (var j = 0; j < oLi.length; j++) {
+                oLi[j].className = "";
+                oCon[j].className = "";
+                oCon[j].style.opacity = 0;
+                oCon[j].style.filter = "alpha(opacity=0)";
+            }
+            oLi[a].className = "cur";
+            clearInterval(Timer);
+            Timer = setInterval(function () {
+                alpha += 2;
+                /*
+                 * alpha > 100 && (alpha = 100);
+                 * 表示
+                 * if(alpha > 100){
+                 * alpha = 100
+                 * }
+                 * */
+                alpha > 100 && (alpha = 100);
+                oCon[a].style.opacity = alpha / 100;
+                oCon[a].style.filter = "alpha(opacity=" + alpha + ")";
+                alpha == 100 && clearInterval(Timer);
+            }, 5)
+        }
+    }
+</script>
+<hr/>
+<h2>overflow相关属性</h2>
+<div style="width: 100px;">overflow默认属性。。。。。。。。。。</div>
+<div style="width: 100px;overflow: hidden">overflow属性为hidden时。。。。。。。。</div>
+<div style="width: 100px;overflow: scroll;">overflow属性为scroll时。。。。。。。。</div>
+<div style="width: 100px;overflow: auto;">overflow属性为auto时。。。。。。。。</div>
+<hr/>
+<h2>浮动会引起父元素高度塌陷</h2>
+<div style="border: 1px solid red;width: 200px;">
+    <div style="width: 80px;height: 40px;border: 1px solid blue;float: left"></div>
+    <div style="width: 80px;height: 40px;border: 1px solid blue;float: right"></div>
+</div>
+<p>给父元素加上overflow：hidden将会清除浮动，不过当内容超出时，溢出内容会隐藏</p>
+<div style="border: 1px solid red;width: 200px;overflow: hidden;">
+    <div style="width: 80px;height: 40px;border: 1px solid blue;float: left"></div>
+    <div style="width: 80px;height: 40px;border: 1px solid blue;float: right"></div>
+</div>
+<hr/>
+<p>html标签中有两个行内块元素inline-block即img和input元素</p>
+<hr/>
+<p>display:none;属性隐藏元素，元素不在占有原来的位子,visibility:hidden隐藏元素后，元素还占有位置</p>
+<div>
+    <div class="box1">box1</div>
+    <div class="box2">box2</div>
+    <div class="box1">box1111</div>
+    <div class="box2">box2222</div>
+    <input type="button" id="hide" onclick="Hide()" value="隐藏">
+    <input type="button" id="show" onclick="show()" value="显示">
+</div>
+<hr/>
+<p>具有inline-block属性的元素，往往会有间距，可以给其使用父类添加font-size:0px;来去除间距</p>
+<hr/>
+<p>使用text-indent:-9999px;给h1标签添加背景图</p>
+<h1 class="bg">LOGO</h1>
+<hr/>
+<p>text-align:center;属性对文字、inline、inline-block元素起作用，margin：0 auto;对块元素起作用</p>
+<hr/>
+<p>textarea标签使用resize:none;和不使用的区别</p>
+<div class="mtextarea">
+    <span>maxwidth和maxheight属性</span><br>
+    <textarea style="max-width: 100px;max-height: 100px;"></textarea>
+</div>
+<div class="mtextarea">
+    <span>resize:none属性</span><br>
+    <textarea style="resize: none;"></textarea>
+    <textarea></textarea>
+</div>
+<hr/>
+<p>清除浮动的三种方式：(1)额外增加一个div标签设置clear:both；(2)父类设置overflow：hidden；(3)::after伪元素清除</p>
+<div style="border: 1px solid green;">
+    <div style="float: left;width: 80px;height: 40px;border: 1px solid red;"></div>
+    <div style="float: right;width: 80px;height: 40px;border: 1px solid red;"></div>
+    <div style="clear: both;"></div>
+</div>
+<div style="border: 1px solid green;overflow: hidden;">
+    <div style="float: left;width: 80px;height: 40px;border: 1px solid red;"></div>
+    <div style="float: right;width: 80px;height: 40px;border: 1px solid red;"></div>
+</div>
+<div style="border: 1px solid green;" class="clearfix">
+    <div style="float: left;width: 80px;height: 40px;border: 1px solid red;"></div>
+    <div style="float: right;width: 80px;height: 40px;border: 1px solid red;"></div>
+</div>
+<hr>
+
+</body>
+</html>
